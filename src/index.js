@@ -1,7 +1,3 @@
-import './css/styles.css';
-
-const DEBOUNCE_DELAY = 300;
-
 /*
     1. Напиши функцию fetchCountries(name) которая делает HTTP-запрос на ресурс name 
 и возвращает промис с массивом стран - результатом запроса. 
@@ -50,11 +46,27 @@ languages - массив языков
     11. Не забывай о том, что fetch не считает 404 ошибкой, поэтому необходимо явно отклонить промис 
     чтобы можно было словить и обработать ошибку.
 */
+import './css/styles.css';
+import singleCardTpl from '../src/singleCardInformation.hbs';
+//import fetchCountries.js;
+
+const DEBOUNCE_DELAY = 300;
+
+const refs = {
+  countryInfo: document.querySelector('.country-info'),
+  searchingInput: document.querySelector('#search-box'),
+};
 
 fetch('https://restcountries.com/v3.1/name/peru')
   .then(response => {
     return response.json();
   })
-  .then(country => console.log(country))
+  .then(country => {
+    console.log(country);
+    refs.countryInfo.textContent = country[0].capital;
+    const markup = singleCardTpl(country[0]);
+    console.log(markup);
+    refs.countryInfo.innerHTML = markup;
+  })
   .catch(error => console.log(error));
-//console.log(r);
+console.log(refs.searchingInput);
