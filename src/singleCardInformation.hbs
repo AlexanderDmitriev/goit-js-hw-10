@@ -1,13 +1,14 @@
-<div>
-        <img src="{{flags.svg}}" alt="{{name.official}}" width="64">
-        {{name.official}}
-</div>
-<ul>
-    <li>Capital: {{capital}}</li>
-    <li>Population: {{population}} </li>
+<ul class="list example upper">
+        <li class="upperTitle"><img src="{{flags.svg}}" alt="{{name.official}}" width="32"></li>
+        <li class="upperTitle">{{name.official}}</li>      
 </ul>
-<ul>Languages:
+<ul class="list example title">
+    <li>Capital: <span class="data">{{capital}}</span></li>
+    <li>Population: <span class="data">{{population}} </span> </li>
+    <li class="example title">Languages:
         {{#each languages}} 
-        <li> {{this}}</li>
-    {{/each}}
+            <span class="data">{{this}}, </span>
+        {{/each}}
+    </li>
 </ul>
+

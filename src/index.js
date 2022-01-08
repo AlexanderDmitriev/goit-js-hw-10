@@ -48,25 +48,28 @@ languages - массив языков
 */
 import './css/styles.css';
 import singleCardTpl from '../src/singleCardInformation.hbs';
-//import fetchCountries.js;
+import { fetchCountries } from '../src/fetchCountries';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import debounce from 'lodash.debounce';
 
 const DEBOUNCE_DELAY = 300;
+let counrtyName;
 
 const refs = {
   countryInfo: document.querySelector('.country-info'),
   searchingInput: document.querySelector('#search-box'),
 };
 
-fetch('https://restcountries.com/v3.1/name/peru')
-  .then(response => {
-    return response.json();
-  })
-  .then(country => {
-    console.log(country);
-    refs.countryInfo.textContent = country[0].capital;
-    const markup = singleCardTpl(country[0]);
-    console.log(markup);
-    refs.countryInfo.innerHTML = markup;
-  })
-  .catch(error => console.log(error));
-console.log(refs.searchingInput);
+const searchingInputHandler = event => {
+  console.log(event.target.value);
+  counrtyName = event.target.value;
+  fetchCountries(counrtyName)
+    .then(country => {
+      const markup = singleCardTpl(country[0]);
+      refs.countryInfo.innerHTML = markup;
+      console.log('222');
+    })
+    .catch(console.log('1111'));
+};
+
+refs.searchingInput.addEventListener('input', debounce(searchingInputHandler, DEBOUNCE_DELAY));
