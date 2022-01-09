@@ -48,26 +48,34 @@ languages - массив языков
 */
 import './css/styles.css';
 import singleCardTpl from '../src/singleCardInformation.hbs';
+import multiCardTpl from '../src/multiCardInformation.hbs';
 import { fetchCountries } from '../src/fetchCountries';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import debounce from 'lodash.debounce';
+import { refs } from './refs';
 
 const DEBOUNCE_DELAY = 300;
 let counrtyName;
-
-const refs = {
-  countryInfo: document.querySelector('.country-info'),
-  searchingInput: document.querySelector('#search-box'),
-};
+let temp;
 
 const searchingInputHandler = event => {
   console.log(event.target.value);
-  counrtyName = event.target.value;
+  counrtyName = event.target.value.trim();
+
   fetchCountries(counrtyName)
     .then(country => {
-      const markup = singleCardTpl(country[0]);
-      refs.countryInfo.innerHTML = markup;
-      console.log('222');
+      let markup;
+      temp = country;
+      if (country.length == 1) {
+        markup = singleCardTpl(country[0]);
+        refs.countryInfo.innerHTML = markup;
+      } else if (country.length > 1) {
+        markup = multiCardTpl(country);
+        refs.countryInfo.innerHTML = markup;
+      }
+      //const markup = singleCardTpl(country[0]);
+      console.log(markup);
+      console.log(country);
     })
     .catch(console.log('1111'));
 };
