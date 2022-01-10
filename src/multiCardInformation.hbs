@@ -1,8 +1,10 @@
 <ul class="example title list">
-    <li class="upper">
-        {{#each country}} 
-            <img src="{{flags.svg}}" alt="{{name.official}}" width="16">
-            <p class="data">{{name.official}}</p>
+    
+        {{#each this}} 
+            <li class="upper">
+                <img class="flag" src="{{flags.svg}}" alt="{{name.official}}"  height="16">
+                <p class="data">{{name.official}}</p>
+            </li>
         {{/each}}
-    </li>
+   
 </ul>

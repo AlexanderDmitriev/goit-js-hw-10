@@ -50,4 +50,8 @@ body {
 }
 .data {
   font-weight: 500;
+  margin: 0;
+}
+.flag {
+  margin: 0 10px;
 }

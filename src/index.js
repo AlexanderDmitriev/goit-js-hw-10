@@ -55,29 +55,22 @@ import debounce from 'lodash.debounce';
 import { refs } from './refs';
 
 const DEBOUNCE_DELAY = 300;
-let counrtyName;
-let temp;
 
 const searchingInputHandler = event => {
-  console.log(event.target.value);
-  counrtyName = event.target.value.trim();
+  let counrtyName = event.target.value.trim();
 
   fetchCountries(counrtyName)
     .then(country => {
-      let markup;
-      temp = country;
-      if (country.length == 1) {
-        markup = singleCardTpl(country[0]);
-        refs.countryInfo.innerHTML = markup;
-      } else if (country.length > 1) {
-        markup = multiCardTpl(country);
-        refs.countryInfo.innerHTML = markup;
+      if (country.length === 1) {
+        refs.countryInfo.innerHTML = singleCardTpl(...country);
+      } else if (country.length > 1 && country.length < 11) {
+        refs.countryInfo.innerHTML = multiCardTpl(country);
+      } else {
+        refs.countryInfo.innerHTML = '';
+        throw new Error('Too many matches found. Please enter a more specific name.');
       }
-      //const markup = singleCardTpl(country[0]);
-      console.log(markup);
-      console.log(country);
     })
-    .catch(console.log('1111'));
+    .catch(error => Notify.info(error.message));
 };
 
 refs.searchingInput.addEventListener('input', debounce(searchingInputHandler, DEBOUNCE_DELAY));
