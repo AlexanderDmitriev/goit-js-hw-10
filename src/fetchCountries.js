@@ -7,6 +7,7 @@ export const fetchCountries = name => {
       if (response.ok) {
         return response.json();
       }
+
       throw new Error('Oops, there is no country with that name');
     })
     .catch(error => Notify.failure(error.message));

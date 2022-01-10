@@ -59,18 +59,18 @@ const DEBOUNCE_DELAY = 300;
 const searchingInputHandler = event => {
   let counrtyName = event.target.value.trim();
 
-  fetchCountries(counrtyName)
-    .then(country => {
+  fetchCountries(counrtyName).then(country => {
+    if (country != undefined) {
       if (country.length === 1) {
         refs.countryInfo.innerHTML = singleCardTpl(...country);
       } else if (country.length > 1 && country.length < 11) {
         refs.countryInfo.innerHTML = multiCardTpl(country);
       } else {
         refs.countryInfo.innerHTML = '';
-        throw new Error('Too many matches found. Please enter a more specific name.');
+        Notify.info('Too many matches found. Please enter a more specific name.');
       }
-    })
-    .catch(error => Notify.info(error.message));
+    } else refs.countryInfo.innerHTML = '';
+  });
 };
 
 refs.searchingInput.addEventListener('input', debounce(searchingInputHandler, DEBOUNCE_DELAY));
